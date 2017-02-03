@@ -20,42 +20,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//char c; //global var
 
 
-struct node{
+int main (int argc, char **argv)
+{
+    int c;
+    char *input = argv[1];
+    FILE *input_file;
 
-    char name[20];
-    int id;
-    struct node *next;
+    input_file = fopen(testcases.txt, "r");
 
-}*head;
-
-
-
-int main(void){
-
-    struct node *temp;
-    temp = malloc(sizeof(struct node));
-    temp->next = NULL;
-    head = temp;
-
-    FILE *ifp;
-    ifp = fopen("testcases.txt", "r");
-
-    int c = 0;
-
-    char buffer[1024];
-    memset(buffer, 0, 1024);
-    while(c<5){
-        fgets(buffer, 1024, ifp);
-        sscanf(buffer, "%19[^,], %d", temp->name, &temp->id);
-        printf("%d %s %d\n",c, temp->name, temp->id);
-        temp->next = malloc(sizeof(struct node));
-        temp = temp->next;
-        temp->next = NULL;
-        c++;
+    if (input_file == 0)
+    {
+        //fopen returns 0, the NULL pointer, on failure
+        perror("Canot open input file\n");
+        exit(-1);
     }
+    else
+    {
+        int found_word = 0;
+
+        while ((c =fgetc(input_file)) != EOF )
+        {
+            //if it's an alpha, convert it to lower case
+            if (isalpha(c))
+            {
+                found_word = 1;
+                c = tolower(c);
+                putchar(c);
+            }
+            else {
+                if (found_word) {
+                    putchar('\n');
+                    found_word=0;
+                }
+            }
+
+        }
+    }
+
+    fclose(input_file);
+
+    printf("\n");
+
+    return 0;
 }
 
 /*
