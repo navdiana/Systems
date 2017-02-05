@@ -21,32 +21,105 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct node
+{
+  int entries;
+  char words[50];
+  struct node *next;
+} node_t;
 
+
+//Add function for LinkedList
+node_t *add ( node_t *head, char word[] )
+{
+  node_t *current = NULL;
+ 
+  if ( head == NULL ) {
+    head = malloc ( sizeof *head );       
+    head->next = NULL;
+  }
+  else {
+    current = malloc ( sizeof *current->next );
+    current->next = head;
+    head = current;
+  }
+ 
+  strcpy ( head->words, word );
+  return head;
+}
+ 
+void PrintList ( node_t *head )
+{
+  while ( head != NULL ) {
+    printf ( "%s ", head->words );
+    head = head->next;
+  }
+  printf ( "\n" );
+}
+
+//Sorts LinkedList and then calls from print
+node_t *sort
+
+
+int main (void)
+{
+  char c;
+  int i= 0;
+  int j = 0;
+  char word[50];
+  node_t *list = NULL;
+ 
+  FILE *src = fopen ( "testcases.txt", "r" );
+ 
+  for ( i = 0; ( c = fgetc ( src ) ) != EOF; ++i ) {
+    if ( isalpha ( c ) )
+      word[j++] = tolower ( c );
+    else {
+      word[j++] = '\0';
+      list = add ( list, word );
+      //list = sort (list, word);
+      j = 0;
+    }
+  }
+ 
+  PrintList ( list );
+  fclose ( src );
+ 
+  return 0;
+}
+/*
 int main (int argc, char **argv)
 {
+
+	//LinkedList & File setup
     int c;
     char *input = argv[1];
     FILE *input_file;
-
-    input_file = fopen(testcases.txt, "r");
-
+    node *head, *ptr;
+ 	char c;
+    head = NULL;
+ 	ptr = NULL;
+ 	
+ 	
+    input_file = fopen("testcases.txt", "r");
+	
+	//Error check if file is empty
     if (input_file == 0)
     {
         //fopen returns 0, the NULL pointer, on failure
         perror("Canot open input file\n");
         exit(-1);
-    }
-    else
+
+	} else
     {
         int found_word = 0;
-
         while ((c =fgetc(input_file)) != EOF )
         {
             //if it's an alpha, convert it to lower case
             if (isalpha(c))
             {
                 found_word = 1;
-                c = tolower(c);
+                //c = tolower(c);
                 putchar(c);
             }
             else {
@@ -58,63 +131,15 @@ int main (int argc, char **argv)
 
         }
     }
-
+    
     fclose(input_file);
-
     printf("\n");
-
-    return 0;
-}
-
-/*
-int main(int argc, char* argv[])
-{
-    char const* const testcases = argv[1]; // should check that argc > 1 
-    FILE* file = fopen("testcases.txt", "r"); // should check the result 
-    char line[256];
-
-    while (fgets(line, sizeof(line), file)) {
-        // note that fgets don't strip the terminating \n, checking its
-        // presence would allow to handle lines longer that sizeof(line) 
-        printf("%s\n", line); 
-    }
-    //may check feof here to make a difference between eof and io failure -- network
-    //timeout for instance 
-
-    fclose(file);
+	
+	//free data in LinkedList node first
+	//free actual node of LinkedList
     return 0;
 }
 */
+	
 
-/*
-int main()
-{
-	// Creating a pointer file type
-	FILE *ptr;
-	char array[255];
-	int id;
-	int i;
-	//EOF = "END_OF_FILE"
-	
-	// Opening a file for reading data
-	ptr = fopen("testcases.txt", "r");
-	
-	for(i = 0; i <= EOF; i++)
-	{
-		// Reading data from the file
-		fscanf(ptr, "%s", array); 
-	
-		// Concerting string to integer using "atoi" function
-		id = atoi(array);
-	
-		// Check if id is 2
-		if (id == 4) 
-		{
-			fgets(array, 255, (FILE*)ptr); //used to read the whole line
-			printf("%s", array);
-			break; //while condition match then terminate loop
-		}
-	}
-	return 0;
-}
-*/
+
