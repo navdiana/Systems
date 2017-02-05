@@ -9,12 +9,17 @@
 // sort them, and output them one per line in descending alphabetical order.
 //Separated by non alphabet chars
 
-// 1) Create empty hashtable
-// 2) Go through string, turn all non-alphabet chars into spaces
-// 3) Read strings into program
-// 4) Store strings into hash table
-// 5) Sorting
-// 6) Return result
+//(EFFICIENCY DOES NOT MATTER FAM)
+//1) Create empty LinkedList structure
+//2) Store words from text file into LinkedList
+//3) Sort LinkedList alphabetically
+//4) Print results
+//5) ???
+//6) Profit
+
+//ERROR CHECK:
+//gcc -g pointersorter.c
+//valgrind ./a.out
 
 
 #include <stdio.h>
@@ -30,7 +35,7 @@ typedef struct node
 
 
 //Add function for LinkedList
-node_t *add ( node_t *head, char word[] )
+node_t *add (node_t *head, char word[])
 {
   node_t *current = NULL;
  
@@ -48,45 +53,114 @@ node_t *add ( node_t *head, char word[] )
   return head;
 }
  
-void PrintList ( node_t *head )
+void print (node_t *head)
 {
   while ( head != NULL ) {
-    printf ( "%s ", head->words );
+    printf ( "\n%s ", head->words );
     head = head->next;
   }
   printf ( "\n" );
 }
 
-//Sorts LinkedList and then calls from print
-node_t *sort
+/*
+node_t *sort(node_t *head, char word[])
+{
+	swap()
+	return head;
+}
 
+void swap(node_t *head, node_t *a, node_t *b)
+{
+
+}
+*/
+
+
+
+//Swaps nodes in the LinkedList for sorting
+void swap(node_t *head, node_t *a, node_t *b)
+{	
+	/*
+	node_t *tmp;
+	tmp = malloc ( sizeof *head );
+	node_t *prev = head;
+	while(prev->next != a)
+	{
+		prev = prev->next;
+	} 
+	tmp->next = b->next;
+	tmp->words == a->words;
+	b->next = tmp;
+	prev->next = b;
+	free(tmp);
+	*/
+	
+	char* nemo = (char*) malloc(20*sizeof(char));
+	strcpy(nemo, a->words);
+	strcpy(a->words, b->words);
+	strcpy(a->words, nemo);
+	
+}
+
+
+//Sorts LinkedList and then calls from print
+node_t *sort(node_t *head, char word[])
+{
+	int hasBeenSwapped = 0;
+	node_t *ptr;
+	node_t *ptr2 = NULL;
+	
+	do
+	{
+		hasBeenSwapped = 0;
+		ptr = head;
+		
+		while(ptr->next != ptr2)
+		{
+			if((strcmp( ptr->words, ptr->next->words )) > 0)
+			{
+				swap(head, ptr, ptr->next);
+				hasBeenSwapped = 1;
+			}
+			ptr = ptr->next;
+		}
+		ptr2 = ptr;
+	}
+	while(hasBeenSwapped);
+	return head;
+}
 
 int main (void)
 {
-  char c;
-  int i= 0;
-  int j = 0;
-  char word[50];
-  node_t *list = NULL;
+  	char c;
+ 	int i= 0;
+    int j = 0;
+	char word[50];
+	node_t *list = NULL;
  
-  FILE *src = fopen ( "testcases.txt", "r" );
- 
-  for ( i = 0; ( c = fgetc ( src ) ) != EOF; ++i ) {
-    if ( isalpha ( c ) )
-      word[j++] = tolower ( c );
-    else {
-      word[j++] = '\0';
-      list = add ( list, word );
-      //list = sort (list, word);
-      j = 0;
-    }
-  }
- 
-  PrintList ( list );
-  fclose ( src );
- 
-  return 0;
+	FILE *f = fopen ( "testcases.txt", "r" );
+	
+  	for (i = 0; ( c = fgetc(f) ) != EOF; ++i) 
+  	{
+    	if (isalpha (c))
+    	{
+     		word[j++] = tolower(c);
+    	}  
+    	else
+    	{
+    	//putchar('\n');
+      	word[j++] = '\0';
+      	list = add ( list, word );
+     	j = 0;
+    	}
+  	}
+  	list = sort (list, word);
+  	print(list);
+  	fclose (f);
+  	return 0;
 }
+
+//Testing input from text files
 /*
 int main (int argc, char **argv)
 {
@@ -140,6 +214,7 @@ int main (int argc, char **argv)
     return 0;
 }
 */
+
 	
 
 
