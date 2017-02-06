@@ -76,7 +76,7 @@ Node* addStringNode(char* word)
 //Structure creation----------
 
 //sorts entries within the linked list of the hashtable array
-hashTable* sort(Node* root)
+hashTable* sorter(Node* root)
 {
 	
 	int address;
@@ -86,6 +86,8 @@ hashTable* sort(Node* root)
 	{
 		
 		leading = root->word[0];
+		//Deals with ASCII values of capitalized letters
+		//versus non capitalized letters
 		if(leading<=90)
 			address = 2*(leading % 65);
 		else
@@ -246,7 +248,7 @@ int main(int argc, char** argv)
  	
 	char* inputString = argv[1];
 	Node* root = tokenize(inputString);		
-	hashTable* organizer = sort(root);
+	hashTable* organizer = sorter(root);
 	int i;
 	Node* token;
 	//52 is twice size of alphabet, including capitalized chars
