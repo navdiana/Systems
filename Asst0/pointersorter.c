@@ -80,28 +80,28 @@ hashTable* sorter(Node* root)
 {
 	
 	int address;
-	int leading;
-	hashTable* hTable = addHT();
+	int start;
+	hashTable* organizer = addHT();
 	while(root!=NULL)
 	{
 		
-		leading = root->word[0];
+		start = root->word[0];
 		//Deals with ASCII values of capitalized letters
 		//versus non capitalized letters
-		if(leading<=90)
-			address = 2*(leading % 65);
+		if(start<=90)
+			address = 2*(start % 65);
 		else
-			address = 2*(leading-96)-1;
+			address = 2*(start-96)-1;
 		Node* node = addStringNode(root->word);
-		if(hTable->table[address]==NULL || strcmp(hTable->table[address]->word, node->word)>=0)
+		if(organizer->table[address]==NULL || strcmp(organizer->table[address]->word, node->word)>=0)
 			{
-				node->next = hTable->table[address];
-				hTable->table[address] = node;
+				node->next = organizer->table[address];
+				organizer->table[address] = node;
 			}
 			else
 			{
-				Node* curr = hTable->table[address];
-				Node* prev = hTable->table[address];
+				Node* curr = organizer->table[address];
+				Node* prev = organizer->table[address];
 				while(curr!=NULL && strcmp(curr->word, node->word)<0)
 				{	
 					prev = curr;
@@ -113,7 +113,7 @@ hashTable* sorter(Node* root)
 			//swap(root, prev, ptr);
 			root = root->next;
 	}
-	return hTable;
+	return organizer;
 }
 
 void swap(Node* root, Node* *a, Node* b)
@@ -194,7 +194,7 @@ int checkIfAlpha(char* string[])
 	}
 	else
 	{
-		return ;
+		return 0;
 	}
 }
 
