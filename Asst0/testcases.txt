@@ -1,3 +1,103 @@
+(TEST 1)
 
-BUT^ONLY_THE#AVATAR%CAN MASTER ALL FOUR ELEMENTS
+$ ./a.out "A a bB bb Aa"
+
+expected:
+
+A
+Aa
+a
+bB
+bb
+
+output:
+
+A
+Aa
+a
+bB
+bb
+
+
+(TEST 2)
+
+$ ./a.out "BUT^ONLY_THE#AVATAR%CAN MASTER ALL FOUR ELEMENTS"
+
+expected: 
+
+ALL
+AVATAR
+BUT
+CAN
+ELEMENTS
+FOUR
+MASTER
+ONLY
+THE
+
+output:
+
+ALL
+AVATAR
+BUT
+CAN
+ELEMENTS
+FOUR
+MASTER
+ONLY
+THE
+
+(TEST 3)
+
+$ ./a.out "Aand aAnd aand AAnd"
+
+expected: 
+
+AAnd
+Aand
+aAnd
+aand
+
+output:
+
+AAnd
+Aand
+aAnd
+aand
+
+(TEST 4)
+
+$ ./a.out "thing stuff otherstuff blarp"
+
+expected: 
+
+blarp
+otherstuff
+stuff
+thing
+
+output:
+blarp
+otherstuff
+stuff
+thing
+
+(TEST 5)
+
+$ ./a.out "thing1stuff3otherstuff,blarp"
+
+expected:
+
+blarp
+otherstuff
+stuff
+thing
+
+output:
+
+blarp
+otherstuff
+stuff
+thing
+
 
